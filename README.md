@@ -9,9 +9,13 @@ A Git-based CMS for parsing and emitting ATOM feeds.
 <dd>Generate verbose console logging</dd>
 <dt>-q/--quiet</dt>
 <dd>Suppress all console logging</dd>
-<dt>-i/--include-item &lt;item-selector&gt; </dt>
-<dd></dd>
+<dt>-i/--include-item &lt;item-selector&gt;</dt>
+<dd>Include items that validate against `<item-selector>`</dd>
 </dl>
+
+### Patterns
+
+### Pointers
 
 ## Commands
 
