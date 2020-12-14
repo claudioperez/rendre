@@ -1,0 +1,4 @@
+{% macro single_item(key,item) %}
+{{ key }}, {{ item["title"] }}
+{%- for f in fields %}, {{ resolve_fragment(item,f,"jsonpointer") }}{% endfor -%}
+{% endmacro %}

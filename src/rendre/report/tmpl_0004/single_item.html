@@ -1,0 +1,3 @@
+{% macro single_item(key,item) %}
+{%- for f in item.fields %}{{ f }}, {% endfor %}
+{% endmacro %}
