@@ -42,3 +42,6 @@ If no unescaped separator is present, the pointer is implicitly taken as `%i`, a
 ### `list`
 
 ### `gallery`
+
+## Examples
+
