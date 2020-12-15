@@ -35,20 +35,6 @@ def parse_args():
     subparsers = parser.add_subparsers(title='subcommands') #,description='list of subcommands',help='additional help')
     
     #-List----------------------------------------------------------
-    # list_parser= subparsers.add_parser('list',
-    #                     help='list resource metadata files.')
-    # list_parser.add_argument("-j",'--jq')
-    # list_parser.add_argument('--items',default=True,action="store_true")
-    # list_parser.add_argument('--templates', action="store_true")
-    # list_parser.add_argument('--categories',action="store_true")
-    # list_parser.add_argument("-i","--include-item",nargs="?", action="append")
-
-    # # list_parser.add_argument("-f","--field",nargs="?",action="extend")
-    # list_parser.add_argument("fields",nargs="*",action="append")
-    # list_parser.set_defaults(template="tmpl-0004")
-    # list_parser.set_defaults(init=init_report)
-
-    #-List----------------------------------------------------------
     list_parser= subparsers.add_parser('list',
                         help='list resource metadata files.')
     list_type = list_parser.add_mutually_exclusive_group()
@@ -64,10 +50,7 @@ def parse_args():
     list_parser.add_argument("-i","--include-item",nargs="?", action="append")
     list_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
-    list_parser.add_argument("fields",
-        nargs="*"
-        # action="extend"
-        )
+    list_parser.add_argument("fields", nargs="*")
 
     list_parser.set_defaults(template="tmpl-0004")
     list_parser.set_defaults(init=init_report)
@@ -83,8 +66,7 @@ def parse_args():
     gallery_parser.set_defaults(init=init_report)
 
     #-Print----------------------------------------------------------
-    print_parser= subparsers.add_parser('print',
-                        help='print resources.')
+    print_parser= subparsers.add_parser('print', help='print resources.')
     print_parser.add_argument("-i","--include-item",nargs="?", action="append")
     print_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
     print_parser.add_argument("include-item",nargs="*",action="append")
