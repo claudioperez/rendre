@@ -56,10 +56,17 @@ def parse_args():
     list_type.add_argument('--items',default=True,action="store_true")
     list_type.add_argument('--templates', action="store_true")
     list_type.add_argument('--categories',action="store_true")
+    
+    list_format = list_parser.add_mutually_exclusive_group()
+    list_format.add_argument("--table",dest="format_table",default=True,action="store_true")
+    list_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
+    list_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+
     list_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    list_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
     list_parser.add_argument("fields",
-        default=[r"%i", "%t"],
+        # default=[r"%i", "%t"],
         nargs="*",
         action="extend")
 
@@ -70,6 +77,7 @@ def parse_args():
     gallery_parser= subparsers.add_parser('gallery',
                         help='generate gallery for resource metadata files.')
     gallery_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    gallery_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
     gallery_parser.add_argument("-f","--field",nargs="?",action="append")
     gallery_parser.set_defaults(template="tmpl-0003")
@@ -79,6 +87,7 @@ def parse_args():
     print_parser= subparsers.add_parser('print',
                         help='print resources.')
     print_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    print_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
     print_parser.add_argument("include-item",nargs="*",action="append")
     print_parser.add_argument("-t",'--templates', action="store_true")
     print_parser.add_argument("-c",'--categories',action="store_true")

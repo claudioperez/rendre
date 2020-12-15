@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from functools import reduce
 
@@ -20,31 +21,55 @@ def init(args, config)-> dict:
 
     return {
         "items": {},
-        # "fields": remove_duplicates(args.fields) if args.fields else [],
         "filter_values": {}
     }
 
 def item(rsrc, args:object, config:object, accum:dict)->dict:
     rsrc.update({
-        "fields": \
-            [Pointer(field).resolve(rsrc) for field in remove_duplicates(args.fields)]
-        })
+        "fields": [
+            Pointer(
+                field,
+                truncate=True,
+                bracket_as_slice=True
+            ).resolve(rsrc) 
+            for field in remove_duplicates(args.fields)
+        ]
+    })
     accum['item'] = rsrc
     return accum
 
 def close(args, config, accum):
-    env = jinja2.Environment(
-            loader=jinja2.PackageLoader("rendre","report/tmpl_0004")
+
+    if args.format_yaml:
+        # Insert newline before each top level mapping
+        # key. Keys are assumed to match the following
+        # regular expression: /^([-A-z0-9]*:)$/
+        return "\n".join(
+            re.sub(r"^([-A-z0-9]*:)$","\n\\1", s)  \
+            for s in yaml.dump({
+                k: v["fields"] for k,v in accum["items"].items()
+            }).split("\n")
         )
-    # print(accum["items"])
-    env.filters["tojson"] = tojson
-    env.filters["resolve_fragment"] = resolve_fragment
-    template = env.get_template("main.html")
-    page = template.render(
-        items=accum["items"],
-        # fields=accum["fields"]
-    )
-    return page
+    
+    elif args.format_json:
+        return json.dumps(
+            {k: v["fields"] for k,v in accum["items"].items()},
+            indent=4
+        )
+    
+    elif args.format_table:
+        env = jinja2.Environment(
+                loader=jinja2.PackageLoader("rendre","report/tmpl_0004")
+            )
+        # print(accum["items"])
+        env.filters["tojson"] = tojson
+        env.filters["resolve_fragment"] = resolve_fragment
+        template = env.get_template("main.html")
+        page = template.render(
+            items=accum["items"],
+            # fields=accum["fields"]
+        )
+        return page
 
 def tojson(obj, **kwds):
     return jinja2.Markup(json.dump(obj,**kwds))

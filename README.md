@@ -25,6 +25,8 @@ The following shorthand pointers are defined for `%`-prefixed pointers:
 
 ```
 %i -> item['id']
+%t -> /id | item['id']
+%c -> /categories | item['categories']
 ```
 
 ### \<item-selector>

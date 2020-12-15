@@ -86,10 +86,21 @@ def rendre(args)->int:
         logger.debug("Loading defaults")
         defaults = resolve_uri(args.defaults)
         for key, value in defaults.items():
-            if key not in args or not getattr(args,key):
+            if key.replace("-","_") == "include_item":
+                if not args.include_item:
+                    setattr(args,"include_item",value)
+                else:
+                    args.include_item.extend([
+                        arg for arg in value if arg not in args.include_item
+                    ])
+                # args.include_item.extend()
+            elif key not in args or not getattr(args,key):
                 if isinstance(value,dict) and not all(value.values()):
                     value = list(value.keys())
                 vars(args)[key.replace("-","_")] = value
+            else:
+                pass
+
     
     logger.debug(f"Namespace: {args}")
         
@@ -104,6 +115,10 @@ def rendre(args)->int:
 
     config = Config()
     
+    #-Fields------------------------------------------------------------
+    if "fields" not in args or not args.fields:
+        setattr(args,"fields",[r"%i", r"%t"])
+
     #-Filters-----------------------------------------------------------
     FILTERS = proc_filters(args.filter_any) if args.filter_any else {}
 
