@@ -45,3 +45,28 @@ If no unescaped separator is present, the pointer is implicitly taken as `%i`, a
 
 ## Examples
 
+```
+>rendre list -i "%./api/cmd/usage:"
+
+
+```
+
+
+```
+> rendre list -- %i %t %c/workflow-module %./links/repository[24:] | column -t -s ,
+...
+bknd-0035   ExtractPGA              performSIMULATION        SimCenter/SimCenterBackendApplications
+bknd-0036   Dakota-FEM              performUQ                SimCenter/SimCenterBackendApplications
+bknd-0037   Dakota-UQ               performUQ                SimCenter/SimCenterBackendApplications
+bknd-0038   Dakota-UQ1              performUQ                SimCenter/SimCenterBackendApplications
+bknd-0039   Dakota-UQ               performUQ                SimCenter/quoFEM
+bknd-0040   DakotaFEM               performUQ                SimCenter/quoFEM
+bknd-0041   SimCenterUQ-UQ          performUQ                SimCenter/quoFEM
+bknd-0042   Other-UQ                performUQ                SimCenter/quoFEM
+bknd-0043   UCSD-UQ                 performUQ                SimCenter/quoFEM
+bknd-0044   pelicun                 performDL                SimCenter/SimCenterBackendApplications
+bknd-0045   NearestNeighborEvents   performRegionalMapping   SimCenter/SimCenterBackendApplications
+bknd-0046   OpenSees                performSIM               SimCenter/quoFEM
+bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
+...
+```
