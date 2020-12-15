@@ -41,6 +41,8 @@ setup(
     ],
     install_requires=[
         "coloredlogs",
-        "pyyaml"
+        "aurore",
+        "pyyaml",
+        "jinja2"
     ]
 )
