@@ -3,33 +3,25 @@
     <details>
       <summary class="card-header"><code>{{ key }}</code>
         <h5 class="card-title mb-0" >
-          <!-- <button class="accordion-button" type="button" data-bs-toggle="collapse" > -->
           {{ item["title"] }}
-          <!-- </button> -->
         </h5>
         <p class="card-text">
           {{ item["summary"] }}
         </p>
       </summary>
 
-      <!-- <div class="collapse show" data-parent="gallery" id="collapse-{{ key }}"> -->
       <div class="accordion-body collapse" data-parent="gallery" id="collapse-{{ key }}">
         <div class="card-body">
           <div class="nav nav-tabs py-4">
             <div class="nav-item">
-              <a class="tablinks nav-link active" onclick="openCardTab(event,'tab-cli-{{ key }}')" >CLI</a>
+              <a class="tablinks nav-link active" onclick="openCardTab(event,'tab-inputs-{{ key }}')" >Inputs</a>
             </div>
             <div class="nav-item">
-              <a class="tablinks nav-link" onclick="openCardTab(event,'tab-inputs-{{ key }}')" >Inputs</a>
+              <a class="tablinks nav-link" onclick="openCardTab(event,'tab-cli-{{ key }}')" >CLI</a>
             </div>
           </div>
           <div class="tab-content">
-            <div class="tabcontent tab-pane active show" id="tab-cli-{{ key }}">
-              <code class="my-2 mx-2" style="border: none;">
-                <pre>{{ item.api.cmd.usage }}</pre>
-              </code>
-            </div>
-            <div class="tabcontent tab-pane" id="tab-inputs-{{ key }}">
+            <div class="tabcontent tab-pane active show" id="tab-inputs-{{ key }}">
               <div class="pt-2 mt-2">
                 <dl>
                 {% for arg in item.api.cmd.args %}
@@ -38,6 +30,11 @@
                 {% endfor %}
                 </dl>
               </div>
+            </div>
+            <div class="tabcontent tab-pane" id="tab-cli-{{ key }}">
+              <code class="my-2 mx-2" style="border: none;">
+                <pre>{{ item.api.cmd.usage }}</pre>
+              </code>
             </div>
           </div>
         </div>
