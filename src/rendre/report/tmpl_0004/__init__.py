@@ -6,10 +6,10 @@ from functools import reduce
 import yaml
 import jinja2
 
+from aurore.utils.treeutils import iterate_leaves
 from aurore.selectors import Pointer
-from aurore.uri_utils import resolve_fragment
-from rendre.utils import get_resource_location
-from rendre.api import get_item
+# from aurore.uri_utils import resolve_fragment
+# from rendre.api import get_item
 
 
 def remove_duplicates(lst: list)->list:
@@ -31,7 +31,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
                 field,
                 truncate=True,
                 bracket_as_slice=True
-            ).resolve(rsrc) 
+            ).resolve(rsrc)
             for field in remove_duplicates(args.fields)
         ]
     })
@@ -50,20 +50,22 @@ def close(args, config, accum):
                 k: v["fields"] for k,v in accum["items"].items()
             }).split("\n")
         )
-    
+    elif args.format_line:
+        return ' '.join(f for v in accum["items"].values() for f in iterate_leaves(v["fields"]))
+
     elif args.format_json:
         return json.dumps(
             {k: v["fields"] for k,v in accum["items"].items()},
             indent=4
         )
-    
+
     elif args.format_table:
         env = jinja2.Environment(
                 loader=jinja2.PackageLoader("rendre","report/tmpl_0004")
             )
         # print(accum["items"])
         env.filters["tojson"] = tojson
-        env.filters["resolve_fragment"] = resolve_fragment
+        # env.filters["resolve_fragment"] = resolve_fragment
         template = env.get_template("main.html")
         page = template.render(
             items=accum["items"],
@@ -73,4 +75,4 @@ def close(args, config, accum):
 
 def tojson(obj, **kwds):
     return jinja2.Markup(json.dump(obj,**kwds))
-    
+

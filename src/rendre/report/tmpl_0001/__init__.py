@@ -38,6 +38,7 @@ def close(args, config, accum):
         items=accum["items"])
     print(page)
 
+
 def get_children(rsrc:dict, config, data_fields:dict)->dict:
     path = get_resource_location(rsrc, config) + "/index"
     data = {
@@ -50,7 +51,8 @@ def get_children(rsrc:dict, config, data_fields:dict)->dict:
     }
     # print(data)
     return data
-    
+
+
 def elstir_get_filters(template_data: dict)-> dict:
     # print(f"TEMP-DATA: {template_data}\n")
     if "filters" in template_data:
@@ -61,3 +63,4 @@ def elstir_get_filters(template_data: dict)-> dict:
         return reduce(lambda x,y: {**x,**y},args)
     else:
         return {}
+
