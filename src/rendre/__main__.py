@@ -15,8 +15,7 @@ def pass_item(item, args, config, accum:dict)->dict:
 def parse_args():
     parser = argparse.ArgumentParser(prog='rendre', description="Description text.")
     parser.add_argument(
-        "-C","--cache-file",
-        nargs="?", action="append",
+        "-D","--data-file",
         default="./.aurore/aurore.cache.json"
         )
     parser.add_argument(
@@ -33,7 +32,7 @@ def parse_args():
     parser.add_argument("-q","--quiet", action="store_true",default=False)
 
     subparsers = parser.add_subparsers(title='subcommands') #,description='list of subcommands',help='additional help')
-    
+
     #-List----------------------------------------------------------
     list_parser= subparsers.add_parser('list',
                         help='list resource metadata files.')
@@ -41,11 +40,12 @@ def parse_args():
     list_type.add_argument('--items',default=True,action="store_true")
     list_type.add_argument('--templates', action="store_true")
     list_type.add_argument('--categories',action="store_true")
-    
+
     list_format = list_parser.add_mutually_exclusive_group()
     list_format.add_argument("--table",dest="format_table",default=True,action="store_true")
     list_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
     list_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+    list_format.add_argument("--line",dest="format_line",default=False,action="store_true")
 
     list_parser.add_argument("-i","--include-item",nargs="?", action="append")
     list_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
@@ -54,7 +54,7 @@ def parse_args():
 
     list_parser.set_defaults(template="tmpl-0004")
     list_parser.set_defaults(init=init_report)
-    
+
     #-Gallery----------------------------------------------------------
     gallery_parser= subparsers.add_parser('gallery',
                         help='generate gallery for resource metadata files.')
