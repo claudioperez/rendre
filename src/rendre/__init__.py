@@ -101,20 +101,20 @@ def rendre(args)->int:
             else:
                 pass
 
-    
+
     logger.debug(f"Namespace: {args}")
-        
+
     #-Input-------------------------------------------------------------
-    if args.cache_file == "-":
+    if args.data_file == "-":
         cache = json.load(sys.stdin)
     else:
-        with open(args.cache_file, "r") as f:
+        with open(args.data_file, "r") as f:
             cache = json.load(f)
 
     # logger.debug(f"Items: {cache['items']}")
 
     config = Config()
-    
+
     #-Fields------------------------------------------------------------
     if "fields" not in args or not args.fields:
         setattr(args,"fields",[r"%i", r"%t"])
