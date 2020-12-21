@@ -24,7 +24,7 @@ def post_init(args, config)->dict:
     with open(config.init_type[args.type], "r") as f:
         lines = f.readlines()
 
-    for i, ln in enumerate(lines): 
+    for i, ln in enumerate(lines):
         lines[i] = ln.replace("$$lid",lid)
         lines[i] = ln.replace("$$published",datetime.now(timezone.utc).astimezone().isoformat())
     accum =  {
@@ -38,7 +38,7 @@ def post_close(args, config, accum):
     data = {}
     for i, ipt in enumerate(accum["base"].findall("input")):
         val = input(ipt.attrib["key"]+": ")
-        try: 
+        try:
             val = eval(val)
         except:
             pass
