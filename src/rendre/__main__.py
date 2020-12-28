@@ -50,6 +50,9 @@ def parse_args():
     list_parser.add_argument("-i","--include-item",nargs="?", action="append")
     list_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
+    list_parser.add_argument("--flatten-fields",action="store_true",default=False)
+    list_parser.add_argument("-s","--separator",default=", ")
+
     list_parser.add_argument("fields", nargs="*")
 
     list_parser.set_defaults(template="tmpl-0004")
