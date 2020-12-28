@@ -25,8 +25,7 @@ def init(args, config)-> dict:
     }
 
 def item(rsrc, args:object, config:object, accum:dict)->dict:
-    rsrc.update({
-        "fields": [
+    fields = [
             Pointer(
                 field,
                 truncate=True,
@@ -34,6 +33,10 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
             ).resolve(rsrc)
             for field in remove_duplicates(args.fields)
         ]
+    if args.flatten_fields:
+        fields = [f for f in iterate_leaves(fields)]
+    rsrc.update({
+            "fields": fields
     })
     accum['item'] = rsrc
     return accum
@@ -70,6 +73,7 @@ def close(args, config, accum):
         page = template.render(
             items=accum["items"],
             # fields=accum["fields"]
+            SEP=args.separator
         )
         return page
 
