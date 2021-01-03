@@ -8,4 +8,6 @@ def init_report(args, config)->tuple:
         from .tmpl_0003 import init, item, close
     if args.template=="tmpl-0004":
         from .tmpl_0004 import init, item, close
+    if args.template=="tmpl-0007":
+        from .tmpl_0007 import init, item, close
     return init, item, close
