@@ -12,7 +12,7 @@ def pass_item(item, args, config, accum:dict)->dict:
     return accum
 
 
-def parse_args():
+def create_parser():
     parser = argparse.ArgumentParser(prog='rendre', description="Description text.")
     parser.add_argument(
         "-D","--data-file",
@@ -27,7 +27,8 @@ def parse_args():
     parser.add_argument("-E","--book-end", default=True)
     parser.add_argument("-F","--filter-any", nargs="?", action="append")
     # parser.add_argument("-J","--JQ", nargs="?", action="extend")
-    parser.add_argument("-d","--defaults")
+    parser.add_argument("-l","--load-defaults", help="load defaults from a specified file.")
+    parser.add_argument("-d","--default-set", help="identify a previously named set of defaults.")
     parser.add_argument("-v","--verbose", action="count", default=0)
     parser.add_argument("-q","--quiet", action="store_true",default=False)
 
@@ -52,21 +53,55 @@ def parse_args():
 
     list_parser.add_argument("--flatten-fields",action="store_true",default=False)
     list_parser.add_argument("-s","--separator",default=", ")
+    list_parser.add_argument("-j","--join-items",default="\n")
 
     list_parser.add_argument("fields", nargs="*")
 
     list_parser.set_defaults(template="tmpl-0004")
     list_parser.set_defaults(init=init_report)
 
-    #-Gallery----------------------------------------------------------
-    gallery_parser= subparsers.add_parser('gallery',
-                        help='generate gallery for resource metadata files.')
+    #-Gallery-------------------------------------------------------
+    gallery_parser= subparsers.add_parser('filtered-gallery',
+                        help='generate a filtered gallery.')
+    gallery_type = gallery_parser.add_mutually_exclusive_group()
+    gallery_type.add_argument('--items',default=True,action="store_true")
+    # gallery_type.add_argument('--templates', action="store_true")
+    # gallery_type.add_argument('--categories',action="store_true")
+
+    gallery_format = gallery_parser.add_mutually_exclusive_group()
+    gallery_format.add_argument("--html",dest="format_html",default=True,action="store_true")
+    gallery_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
+    gallery_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+    gallery_format.add_argument("--line",dest="format_line",default=False,action="store_true")
+
     gallery_parser.add_argument("-i","--include-item",nargs="?", action="append")
     gallery_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
-    gallery_parser.add_argument("-f","--field",nargs="?",action="append")
-    gallery_parser.set_defaults(template="tmpl-0003")
+    gallery_parser.add_argument("--flatten-fields",action="store_true",default=False)
+    gallery_parser.add_argument("-s","--separator",default=", ")
+    gallery_parser.add_argument("-j","--join-items",default="\n")
+    
+    gallery_parser.add_argument("--link",default="")
+
+    gallery_parser.add_argument("fields", nargs="*")
+
+    gallery_parser.set_defaults(template="tmpl-0007")
     gallery_parser.set_defaults(init=init_report)
+
+    #-CLI-Gallery----------------------------------------------------------
+    cli_gallery_parser= subparsers.add_parser('cli-gallery',
+                        help='generate gallery for resource metadata files.')
+    cli_gallery_format = cli_gallery_parser.add_mutually_exclusive_group()
+    cli_gallery_format.add_argument("--html",dest="format_html",default=True,action="store_true")
+    cli_gallery_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
+    cli_gallery_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+
+    cli_gallery_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    cli_gallery_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
+
+    cli_gallery_parser.add_argument("-f","--field",nargs="?",action="append")
+    cli_gallery_parser.set_defaults(template="tmpl-0003")
+    cli_gallery_parser.set_defaults(init=init_report)
 
     #-Print----------------------------------------------------------
     print_parser= subparsers.add_parser('print', help='print resources.')
@@ -81,12 +116,19 @@ def parse_args():
     print_parser.set_defaults(init=init_report)
     # report_parser.set_defaults(initfunc=report_header_std)
 
-
-    return parser.parse_args()
+    return parser
 
 def _main_():
-    args = parse_args()
-    rendre(args)
+    import sys
+    args = create_parser().parse_args()
+    output = rendre(args)
+    
+    if args.output_file == "-":
+        sys.stdout.write(output)
+    else:
+        with open(args.output_file, "w") as f:
+            f.write(output)
+
 
 
 if __name__ == "__main__": _main_()
