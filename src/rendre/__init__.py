@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 
+__version__ = "0.0.0"
 
 import os, re, sys, distutils, shutil, logging
 import json
@@ -63,7 +63,7 @@ def apply_field_filters(resource,filters:dict)->bool:
 
     return all(matches)
 
-def rendre(args)->int:
+def rendre(args, config={})->str:
     # logger = logging.getLogger(__name__)
     logger = logging.getLogger("rendre")
 
@@ -82,24 +82,28 @@ def rendre(args)->int:
         pass
 
     #-Defaults----------------------------------------------------------
-    if "defaults" in args and args.defaults:
+    defaults = {}
+    if "load_defaults" in args and args.load_defaults:
         logger.debug("Loading defaults")
-        defaults = resolve_uri(args.defaults)
-        for key, value in defaults.items():
-            if key.replace("-","_") == "include_item":
-                if not args.include_item:
-                    setattr(args,"include_item",value)
-                else:
-                    args.include_item.extend([
-                        arg for arg in value if arg not in args.include_item
-                    ])
-                # args.include_item.extend()
-            elif key not in args or not getattr(args,key):
-                if isinstance(value,dict) and not all(value.values()):
-                    value = list(value.keys())
-                vars(args)[key.replace("-","_")] = value
+        defaults = resolve_uri(args.load_defaults)
+    elif "default_set" in args and args.default_set:
+        defaults = config["def-defaults"][args.default_set]
+    
+    for key, value in defaults.items():
+        if key.replace("-","_") == "include_item":
+            if not args.include_item:
+                setattr(args,"include_item",value)
             else:
-                pass
+                args.include_item.extend([
+                    arg for arg in value if arg not in args.include_item
+                ])
+            # args.include_item.extend()
+        elif key not in args or not getattr(args,key):
+            if isinstance(value,dict) and not all(value.values()):
+                value = list(value.keys())
+            vars(args)[key.replace("-","_")] = value
+        else:
+            pass
 
 
     logger.debug(f"Namespace: {args}")
@@ -108,12 +112,12 @@ def rendre(args)->int:
     if args.data_file == "-":
         cache = json.load(sys.stdin)
     else:
-        with open(args.data_file, "r") as f:
+        with open(os.path.expandvars(args.data_file), "r") as f:
             cache = json.load(f)
 
     # logger.debug(f"Items: {cache['items']}")
 
-    config = Config()
+    if not config: config = Config()
 
     #-Fields------------------------------------------------------------
     if "fields" not in args or not args.fields:
@@ -150,13 +154,7 @@ def rendre(args)->int:
         if output and output[-1] != "\n":
             output = "".join((output,"\n"))
 
-
     #-Output------------------------------------------------------------
-    if args.output_file == "-":
-        sys.stdout.write(output)
-    else:
-        with open(args.output_file, "w") as f:
-            f.write(output)
-
-    return 0
+    
+    return output
 
