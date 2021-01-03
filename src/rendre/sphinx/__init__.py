@@ -6,7 +6,7 @@ from sphinx.directives.other import TocTree
 from sphinx.util import logging
 
 from rendre.__main__ import create_parser
-from rendre import rendre
+from rendre import rendre, __version__
 
 parser = create_parser()
 
@@ -16,19 +16,11 @@ def setup(app):
     app.add_config_value('rendre_config', {}, 'html')
     app.add_config_value('rendre_links', {}, 'html')
     app.add_directive('rendre', SphinxRendre)
-    return {'version': '0.0.0'}
+    return {'version': __version__}
 
 class SphinxRendre(TocTree):
     """
-    Directive to notify Sphinx about the hierarchical structure of the docs,
-    and to include a table-of-contents like tree in the current document. This
-    version filters the entries based on a list of prefixes. We simply filter
-    the content of the directive and call the super's version of run. The
-    list of exclusions is stored in the **toc_filter_exclusion** list. Any
-    table of content entry prefixed by one of these strings will be excluded.
-    If `toc_filter_exclusion=['secret','draft']` then all toc entries of the
-    form `:secret:ultra-api` or `:draft:new-features` will be excuded from
-    the final table of contents. Entries without a prefix are always included.
+
     """
     # arg_pat = re.compile('^\s*:(.+):(.+)$')
     arg_pat = re.compile('^\s*:([A-z-]+):(.+)$')
