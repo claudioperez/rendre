@@ -48,7 +48,6 @@ If no unescaped separator is present, the pointer is implicitly taken as `%i`, a
 ```
 >rendre list -i "%./api/cmd/usage:"
 
-
 ```
 
 
@@ -69,4 +68,13 @@ bknd-0045   NearestNeighborEvents   performRegionalMapping   SimCenter/SimCenter
 bknd-0046   OpenSees                performSIM               SimCenter/quoFEM
 bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 ...
+```
+
+## Sphinx Directive
+
+```rst
+.. rendre:: <template>
+   :<cli-options>:
+
+   :<cmd-options>:
 ```
