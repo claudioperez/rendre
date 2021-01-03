@@ -73,7 +73,7 @@ bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 ## Sphinx Directive
 
 ```rst
-.. rendre:: <template>
+.. rendre:: <command>
    :<cli-options>:
 
    :<cmd-options>:
