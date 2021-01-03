@@ -8,7 +8,6 @@ import yaml
 
 
 logger = logging.getLogger(__name__)
-# logger = logging.getLogger()
 coloredlogs.install()
 
 class Error(OSError):
