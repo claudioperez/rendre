@@ -1,0 +1,12 @@
+{% macro single_item(item, key="") %}
+
+\paragraph{ {{ item["title"].replace("_","\\_") }} }
+  {{ item["summary"] }}
+  \small\subparagraph{Application parameters}
+  \begin{description}
+  {% for arg in item.api.cmd.args %}
+    \item[{{ arg.name }}\texttt{ {{ arg.type }} }] \leavevmode
+    {{ arg.help }}
+  {% endfor %}
+  \end{description}
+{% endmacro %}

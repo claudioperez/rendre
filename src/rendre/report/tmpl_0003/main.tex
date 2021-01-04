@@ -1,0 +1,6 @@
+{% from "single_item.tex" import single_item with context %}
+
+{%- for key,item in items.items() %}
+  {{ single_item(item,key) }}
+{%- endfor %}
+
