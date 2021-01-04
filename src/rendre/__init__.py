@@ -12,9 +12,6 @@ from aurore.selectors import check_includes
 
 import yaml
 
-# from .api import \
-#     post_init, post_close, \
-#     get_init, get_item, get_close
 
 from .core import Config, InitOperation, ItemOperation
 from .utils import copy_tree, get_resource_location, isrepository
@@ -64,7 +61,6 @@ def apply_field_filters(resource,filters:dict)->bool:
     return all(matches)
 
 def rendre(args, config={})->str:
-    # logger = logging.getLogger(__name__)
     logger = logging.getLogger("rendre")
 
     #-Logging-----------------------------------------------------------
