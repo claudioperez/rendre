@@ -25,7 +25,7 @@ def init(args, config)->dict:
 
 def item(rsrc, args:object, config:object, accum:dict)->dict:
     try:
-        paths = [p.resolve(rsrc) for p in accum["path-builders"]]
+        paths = [p  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
     except:
         accum["path-builders"] = [
             PathBuilder(
@@ -34,7 +34,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
                 unpack_fields = args.unpack_fields
             ) for field in remove_duplicates(args.paths)
         ]
-        paths = [p.resolve(rsrc) for p in accum["path-builders"]]
+        paths = [p  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
     
     rsrc.update({
             "paths": paths
