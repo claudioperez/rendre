@@ -1,10 +1,24 @@
 import io
-from os.path import splitext, basename, join, dirname
 from glob import glob
+from os.path import splitext, basename, join, dirname
 
 from setuptools import Extension
 from setuptools import find_packages
 from setuptools import setup
+
+
+
+
+
+
+
+
+
+def get_version(package:str)->str:
+    """Return package version as listed in `__version__` in `__init__.py`."""
+    with open(os.path.join(package, '__init__.py')) as f:
+        init_py = f.read()
+    return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
 def read(*names, **kwargs):
@@ -17,9 +31,11 @@ def read(*names, **kwargs):
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+__version__ = get_version("./src/rendre")
+
 setup(
     name="rendre",
-    version="0.0.1",
+    version=__version__,
     author="Claudio Perez",
     author_email="claudio_perez@berkeley.edu",
     description="Utilities",
