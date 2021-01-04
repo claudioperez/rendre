@@ -7,7 +7,6 @@ from .api import \
     get_init, get_item, get_close
 
 
-
 def pass_item(item, args, config, accum:dict)->dict:
     return accum
 
@@ -17,12 +16,12 @@ def create_parser():
     parser.add_argument(
         "-D","--data-file",
         default="./.aurore/aurore.cache.json"
-        )
+    )
     parser.add_argument(
         "-o","--output-file",
         nargs="?",
         default="-"
-        )
+    )
     parser.add_argument("-B","--base-uri", default="")
     parser.add_argument("-E","--book-end", default=True)
     parser.add_argument("-F","--filter-any", nargs="?", action="append")
@@ -49,6 +48,7 @@ def create_parser():
     list_format.add_argument("--line",dest="format_line",default=False,action="store_true")
 
     list_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    list_parser.add_argument("-x","--exclude-item",nargs="?", action="append")
     list_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
     list_parser.add_argument("--flatten-fields",action="store_true",default=False)
@@ -59,6 +59,32 @@ def create_parser():
 
     list_parser.set_defaults(template="tmpl-0004")
     list_parser.set_defaults(init=init_report)
+    
+    #-PATH----------------------------------------------------------
+    path_parser= subparsers.add_parser('path',
+                        help='generate paths.')
+    path_type = path_parser.add_mutually_exclusive_group()
+
+    path_type.add_argument('--pointer-delimeter',default=":")
+
+    path_format = path_parser.add_mutually_exclusive_group()
+    path_format.add_argument("--table",dest="format_table",default=True,action="store_true")
+    path_format.add_argument("--flat",dest="format_flat",default=False,action="store_true")
+    # path_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
+    # path_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+
+    path_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    path_parser.add_argument("-x","--exclude-item",nargs="?", action="append")
+    path_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
+
+    path_parser.add_argument("--unpack-fields",action="store_true",default=True)
+    path_parser.add_argument("-s","--separator",default=" ")
+    path_parser.add_argument("-j","--join-items",default="\n")
+
+    path_parser.add_argument("paths", nargs="*")
+
+    path_parser.set_defaults(template="tmpl-0008")
+    path_parser.set_defaults(init=init_report)
 
     #-Gallery-------------------------------------------------------
     gallery_parser= subparsers.add_parser('filtered-gallery',
@@ -72,9 +98,10 @@ def create_parser():
     gallery_format.add_argument("--html",dest="format_html",default=True,action="store_true")
     gallery_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
     gallery_format.add_argument("--json",dest="format_json",default=False,action="store_true")
-    gallery_format.add_argument("--line",dest="format_line",default=False,action="store_true")
+    gallery_format.add_argument("--latex",dest="format_latex",default=False,action="store_true")
 
     gallery_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    gallery_parser.add_argument("-x","--exclude-item",nargs="?", action="append")
     gallery_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
     gallery_parser.add_argument("--flatten-fields",action="store_true",default=False)
@@ -95,8 +122,10 @@ def create_parser():
     cli_gallery_format.add_argument("--html",dest="format_html",default=True,action="store_true")
     cli_gallery_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
     cli_gallery_format.add_argument("--json",dest="format_json",default=False,action="store_true")
+    cli_gallery_format.add_argument("--latex",dest="format_latex",default=False,action="store_true")
 
     cli_gallery_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    cli_gallery_parser.add_argument("-x","--exclude-item",nargs="?", action="append")
     cli_gallery_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
 
     cli_gallery_parser.add_argument("-f","--field",nargs="?",action="append")
@@ -104,17 +133,17 @@ def create_parser():
     cli_gallery_parser.set_defaults(init=init_report)
 
     #-Print----------------------------------------------------------
-    print_parser= subparsers.add_parser('print', help='print resources.')
-    print_parser.add_argument("-i","--include-item",nargs="?", action="append")
-    print_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
-    print_parser.add_argument("include-item",nargs="*",action="append")
-    print_parser.add_argument("-t",'--templates', action="store_true")
-    print_parser.add_argument("-c",'--categories',action="store_true")
+    # print_parser= subparsers.add_parser('print', help='print resources.')
+    # print_parser.add_argument("-i","--include-item",nargs="?", action="append")
+    # print_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
+    # print_parser.add_argument("include-item",nargs="*",action="append")
+    # print_parser.add_argument("-t",'--templates', action="store_true")
+    # print_parser.add_argument("-c",'--categories',action="store_true")
 
-    print_parser.add_argument("-f","--field",nargs="?",action="append")
-    print_parser.set_defaults(template="tmpl-0004")
-    print_parser.set_defaults(init=init_report)
-    # report_parser.set_defaults(initfunc=report_header_std)
+    # print_parser.add_argument("-f","--field",nargs="?",action="append")
+    # print_parser.set_defaults(template="tmpl-0004")
+    # print_parser.set_defaults(init=init_report)
+    # # report_parser.set_defaults(initfunc=report_header_std)
 
     return parser
 

@@ -25,11 +25,19 @@ def close(args, config, accum):
         )
     env.filters["tojson"] = lambda obj,**kwargs: jinja2.Markup(json.dumps(obj, **kwargs))
     env.filters["resolve_fragment"] = resolve_fragment
-    template = env.get_template("main.html")
-    page = template.render(
-        items=accum["items"],
-        fields=accum["fields"]
-    )
+
+    if args.format_latex:
+        template = env.get_template("main.tex")
+        page = template.render(
+            items=accum["items"],
+            fields=accum["fields"]
+        )
+    elif args.format_html:
+        template = env.get_template("main.html")
+        page = template.render(
+            items=accum["items"],
+            fields=accum["fields"]
+        )
     return page
 
 

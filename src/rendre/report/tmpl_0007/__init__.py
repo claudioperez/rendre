@@ -67,6 +67,7 @@ def close(args, config, accum):
     print(f"\nFilters: {accum['filters']}\n")
     if not args.fields:
         fields = {k: v for k, v in accum["items"]}
+
     if args.format_yaml:
         # Insert newline before each top level mapping
         # key. Keys are assumed to match the following
@@ -83,6 +84,8 @@ def close(args, config, accum):
             {k: v["fields"] for k,v in accum["items"].items()},
             indent=4
         )
+    elif args.format_latex:
+        return ""
 
     elif args.format_html:
         env = jinja2.Environment(

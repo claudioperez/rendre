@@ -8,8 +8,6 @@ import jinja2
 
 from aurore.utils.treeutils import iterate_leaves
 from aurore.selectors import Pointer
-# from aurore.uri_utils import resolve_fragment
-# from rendre.api import get_item
 
 
 def remove_duplicates(lst: list)->list:
@@ -17,7 +15,7 @@ def remove_duplicates(lst: list)->list:
     append = items.add
     return [x for x in lst if not (x in items or append(x))]
 
-def init(args, config)-> dict:
+def init(args, config)->dict:
 
     return {
         "items": {},
@@ -54,7 +52,10 @@ def close(args, config, accum):
             }).split("\n")
         )
     elif args.format_line:
-        return ' '.join(f for v in accum["items"].values() for f in iterate_leaves(v["fields"]))
+        return ' '.join(
+            f for v in accum["items"].values() 
+              for f in iterate_leaves(v["fields"])
+        )
 
     elif args.format_json:
         return json.dumps(
@@ -63,20 +64,25 @@ def close(args, config, accum):
         )
 
     elif args.format_table:
-        env = jinja2.Environment(
-                loader=jinja2.PackageLoader("rendre","report/tmpl_0004")
-            )
-        # print(accum["items"])
-        env.filters["tojson"] = tojson
-        # env.filters["resolve_fragment"] = resolve_fragment
-        template = env.get_template("main.html")
-        page = template.render(
-            items=accum["items"],
-            # fields=accum["fields"]
-            SEP=args.separator
+        return args.join_items.join(
+            args.separator.join(
+                item["fields"]
+            ) for item in accum["items"].values()
         )
-        return page
+    #     env = jinja2.Environment(
+    #             loader=jinja2.PackageLoader("rendre","report/tmpl_0004")
+    #         )
+    #     # print(accum["items"])
+    #     env.filters["tojson"] = tojson
+    #     # env.filters["resolve_fragment"] = resolve_fragment
+    #     template = env.get_template("main.html")
+    #     page = template.render(
+    #         items=accum["items"],
+    #         # fields=accum["fields"]
+    #         SEP=args.separator
+    #     )
+    #     return page
 
-def tojson(obj, **kwds):
-    return jinja2.Markup(json.dump(obj,**kwds))
+# def tojson(obj, **kwds):
+#     return jinja2.Markup(json.dump(obj,**kwds))
 
