@@ -1,4 +1,4 @@
-import io
+import io, os
 from glob import glob
 from os.path import splitext, basename, join, dirname
 
@@ -57,8 +57,8 @@ setup(
     ],
     install_requires=[
         "coloredlogs",
-        'aurore @ git+https://github.com/claudioperez/aurore@master',
-        # "aurore",
+        # 'aurore @ git+https://github.com/claudioperez/aurore@master',
+        "aurore",
         "pyyaml",
         "jinja2"
     ]
