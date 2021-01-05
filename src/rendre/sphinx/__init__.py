@@ -101,6 +101,7 @@ class SphinxRendre(TocTree):
             latex_node.source, latex_node.line = html_node.source, html_node.line
 
             if "--link" in cmd_args:
+                # print(f"\n\nLinking page...\n\n")
                 link = cmd_args[cmd_args.index("--link")+1]
                 self.content = self.run_link(base_args,arg_pairs,link)
                 self.options = {"hidden": True, "glob": True}
