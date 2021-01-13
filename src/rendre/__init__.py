@@ -131,6 +131,10 @@ def rendre(args, config={})->str:
         accum = args.initfunc(args,config)
     else:
         accum = {}
+    
+    for k, v in cache.items():
+        if k != "items":
+            accum.update({k:v})
 
     logger.debug(f"accum: {accum}")
 
