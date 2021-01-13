@@ -1,6 +1,15 @@
-# Rendre
+---
+title: Rendre
+...
+
+<h1>Rendre</h1>
 
 A Git-based CMS for parsing and emitting ATOM feeds.
+
+-----------------------------------------------------
+
+[![PyPI Version][pypi-v-image]][pypi-v-link]
+[![Commits since latest release][gh-image]][gh-link]
 
 ## Options
 
@@ -41,7 +50,7 @@ If no unescaped separator is present, the pointer is implicitly taken as `%i`, a
 
 ### `list`
 
-### `gallery`
+### `filtered-gallery`
 
 ## Examples
 
@@ -78,3 +87,9 @@ bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 
    :<cmd-options>:
 ```
+
+[pypi-v-image]: https://img.shields.io/pypi/v/rendre.svg
+[pypi-v-link]: https://pypi.org/project/rendre/
+
+[gh-link]: https://github.com/claudioperez/rendre/compare/0.0.1...master
+[gh-image]: https://img.shields.io/github/commits-since/claudioperez/rendre/v0.0.1?style=social
