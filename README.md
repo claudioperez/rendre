@@ -92,4 +92,4 @@ bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 [pypi-v-link]: https://pypi.org/project/rendre/
 
 [gh-link]: https://github.com/claudioperez/rendre/compare/0.0.1...master
-[gh-image]: https://img.shields.io/github/commits-since/claudioperez/rendre/v0.0.1?style=social
+[gh-image]: https://img.shields.io/github/commits-since/claudioperez/rendre/0.0.1?style=social
