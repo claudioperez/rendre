@@ -13,15 +13,6 @@ coloredlogs.install()
 class Error(OSError):
     pass
 
-# def load_namespace(namespace:str)->dict:
-#     pointer = namespace.split("#")
-#     with open(pointer[0],"r") as f:
-#         data = yaml.load(f, Loader=yaml.Loader)
-    
-#     if len(pointer) > 1:
-#         return data[pointer[1]]
-#     else: return data
-
 
 def isrepository(url_string):
     url_object = urllib.parse.urlparse(url_string)
