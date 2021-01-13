@@ -1,5 +1,6 @@
 import re, os
 import warnings
+
 from docutils import nodes
 from docutils.parsers.rst import directives
 from sphinx.directives.other import TocTree
@@ -77,16 +78,19 @@ class SphinxRendre(TocTree):
         else:
             verbosity = 0
         
-        verbose = "-"+"".join(["v"]*verbosity) if verbosity else ""
         
         base_args = self.format_arg_options([
             i for k_v in self.options.items() for i in k_v
         ])
+
+        if verbosity:
+            base_args.append("-"+"".join(["v"]*verbosity))
+
         arg_pairs = [self.arg_pat.match(arg).groups() for arg in self.content]
         cmd_args = self.format_arg_options(self.proc_args(arg_pairs))
 
         # create HTML output
-        parsed_args = parser.parse_args([*base_args, verbose, cmd, "--html", *cmd_args])
+        parsed_args = parser.parse_args([*base_args, cmd, "--html", *cmd_args])
         html_attributes = {"format": "html"}
         # print(
         #     os.environ["SIMCENTER_DEV"],
