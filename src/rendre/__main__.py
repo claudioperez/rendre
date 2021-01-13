@@ -132,19 +132,6 @@ def create_parser():
     cli_gallery_parser.set_defaults(template="tmpl-0003")
     cli_gallery_parser.set_defaults(init=init_report)
 
-    #-Print----------------------------------------------------------
-    # print_parser= subparsers.add_parser('print', help='print resources.')
-    # print_parser.add_argument("-i","--include-item",nargs="?", action="append")
-    # print_parser.add_argument("-e","--include-exclusive",nargs="?", action="append")
-    # print_parser.add_argument("include-item",nargs="*",action="append")
-    # print_parser.add_argument("-t",'--templates', action="store_true")
-    # print_parser.add_argument("-c",'--categories',action="store_true")
-
-    # print_parser.add_argument("-f","--field",nargs="?",action="append")
-    # print_parser.set_defaults(template="tmpl-0004")
-    # print_parser.set_defaults(init=init_report)
-    # # report_parser.set_defaults(initfunc=report_header_std)
-
     return parser
 
 def _main_():

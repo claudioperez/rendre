@@ -1,4 +1,4 @@
-import re
+import re, os
 import warnings
 from docutils import nodes
 from docutils.parsers.rst import directives
@@ -71,6 +71,14 @@ class SphinxRendre(TocTree):
                 self.state.document.settings.env.app.srcdir
             })
         cmd = self.arguments[0]
+        if "verbose" in self.options:
+            verbosity:int = self.options["verbose"]
+            del self.options["verbose"]
+        else:
+            verbosity = 0
+        
+        verbose = "-"+"".join(["v"]*verbosity) if verbosity else ""
+        
         base_args = self.format_arg_options([
             i for k_v in self.options.items() for i in k_v
         ])
@@ -78,10 +86,14 @@ class SphinxRendre(TocTree):
         cmd_args = self.format_arg_options(self.proc_args(arg_pairs))
 
         # create HTML output
-        parsed_args = parser.parse_args([*base_args, "-vv", cmd, "--html", *cmd_args])
+        parsed_args = parser.parse_args([*base_args, verbose, cmd, "--html", *cmd_args])
         html_attributes = {"format": "html"}
+        # print(
+        #     os.environ["SIMCENTER_DEV"],
+        #     os.environ["SIMDOC_APP"]
+        # )
         try:
-        #     "a"+0
+            # "a"+0
         # except:
             html:str = rendre(parsed_args,config=config)
         except Exception as e:
@@ -96,7 +108,7 @@ class SphinxRendre(TocTree):
             # create LaTeX output
             parsed_args = parser.parse_args([*base_args, cmd, "--latex", *cmd_args])
             latex:str = rendre(parsed_args,config=config)
-            print(f"LaTeX: \n{latex}")
+            # print(f"LaTeX: \n{latex}")
             latex_node = nodes.raw("", latex, format="latex")
             latex_node.source, latex_node.line = html_node.source, html_node.line
 

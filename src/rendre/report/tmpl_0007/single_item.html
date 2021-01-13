@@ -1,19 +1,22 @@
 {% macro single_item(card) %}
-<div class="card shadow-sm my-3 {% for f in card.fields %} {{ f.replace(' ','-') if f else '' }}{% endfor %} gallery-item" {# if card.template_data %}data-gallery_info='{{ card.template_data|tojson }}'{% endif #}>
+<div class="card shadow-sm mb-3 {% for f in card.fields %} {{ f.replace(' ','-') if f else '' }}{% endfor %} gallery-item" {# if card.template_data %}data-gallery_info='{{ card.template_data|tojson }}'{% endif #}>
   <div class="row g-0">
     <div class="card-header">
-        <p><code>{{ card.id if card.id else "" }}</code></p>
+        <p>
+          <a href="{{ card.url + '.html' }}"> 
+            <h5 class="gx-3">
+              <!-- <code>{{ card.id if card.id else "" }}</code> -->
+              {{ card.title }}
+            </h5>
+          </a>
+        </p>
       {# if card.template_data.URL #}
-        <p><a href="{{ card.url }}">
-          <!-- <code><img border="1" src="/img/git-logo-2-color.png" width="35px"></code> -->
-        </a></p>
       {# endif #}
     </div>
-    <div class="col-md-{{ '5' if card.image else '7' }}">
+    <!-- <div class="col-md-{{ '5' if card.image else '7' }}"> -->
+    <div class="col">
       <div class="card-body">
-        <a href="{{ card.url + '.html' }}"> <!-- class="stretched-link" -->
-          <h5 class="card-title">{{ card.title }}</h5>
-        </a>
+          <!-- <h5 class="card-title">{{ card.title }}</h5> -->
         <p class="card-text">
           {%-if card.summary -%}
           {{ card.summary }}

@@ -54,7 +54,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     })
     try:
         for k, v in rsrc["categories"].items():
-            print(k,v)
+            # print(k,v)
             accum["filters"][k].update({v})
     except:
         for k, v in rsrc["categories"].items():
@@ -64,7 +64,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     return accum
 
 def close(args, config, accum):
-    print(f"\nFilters: {accum['filters']}\n")
+    # print(f"\nFilters: {accum['filters']}\n")
     if not args.fields:
         fields = {k: v for k, v in accum["items"]}
 
