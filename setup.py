@@ -44,6 +44,7 @@ setup(
     url="https://github.com/claudioperez/rendre",
     py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     include_package_data=True,
+    zip_safe=False,
     packages=find_packages('src'),
     package_dir={'': 'src'},
     entry_points={
