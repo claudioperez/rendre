@@ -20,6 +20,7 @@ A Git-based CMS for parsing and emitting ATOM feeds.
 <dd>Suppress all console logging</dd>
 <dt>-i/--include-item &lt;item-selector&gt;</dt>
 <dd>Include items that validate against <code>&lt;item-selector&gt;::=&lt;pointer&gt;&lt;separator&gt;&lt;pattern&gt;</code>. </dd>
+
 </dl>
 
 ### \<pattern>
@@ -49,6 +50,19 @@ If no unescaped separator is present, the pointer is implicitly taken as `%i`, a
 ## Commands
 
 ### `list`
+
+<dl>
+  <dt>--items | templates | categories</dt>
+  <dt>--table | long(yaml) | json | line</dt>
+  <dd>Select an output format</dd>
+  <dt>-i [INCLUDE_ITEM], --include-item [INCLUDE_ITEM]</dt>
+  <dt>-x [EXCLUDE_ITEM], --exclude-item [EXCLUDE_ITEM]</dt>
+  <dt>-e [INCLUDE_EXCLUSIVE], --include-exclusive [INCLUDE_EXCLUSIVE]</dt>
+  <dt>--flatten-fields</dt>
+  <dt>-s/--separator SEPARATOR</dt>
+  <dt>-j JOIN_ITEMS, --join-items JOIN_ITEMS</dt>
+</dl>
+
 
 ### `filtered-gallery`
 
