@@ -44,19 +44,20 @@ class SphinxRendre(TocTree):
         return ["--"+arg if (i-1)%2 else arg for i, arg in enumerate(args)]
 
     def run_link(self,base_args,arg_pairs,fields):
+        """
+        Create links for items as if they were included in a `toctree` call
+        """
         template = fields.replace("--link","").strip()
-        field_pointers = [f for f in template.split("/") if "%" in f]
         filt_args = [x for pair in arg_pairs for x in pair 
             if pair[0] in ["include-item","exclusive-include"] ]
         filt_args = ["--" + x if (i+1)%2 else x.strip() for i, x in enumerate(filt_args)]
-        args = parser.parse_args([*base_args, "list", "-s"," =^= ",*filt_args,"--"," ".join(field_pointers)])
+        args = parser.parse_args([*base_args, "path", *filt_args,"--",template])
         items = rendre(args).strip()
-        res = []
-        for item in items.split("\n"):
-            link = template
-            for i,sub in enumerate(item.split("=^=")):
-                link = link.replace(field_pointers[i],sub)
-            res.append(link)
+        logger.debug(f"run_link:items : {items}")
+        res = [
+            i.strip()[2:] if i[:2]=="./" else i.strip() for i in items.split("\n")
+        ]
+        # print("\n",res,"\n")
         return res
 
 
@@ -92,10 +93,6 @@ class SphinxRendre(TocTree):
         # create HTML output
         parsed_args = parser.parse_args([*base_args, cmd, "--html", *cmd_args])
         html_attributes = {"format": "html"}
-        # print(
-        #     os.environ["SIMCENTER_DEV"],
-        #     os.environ["SIMDOC_APP"]
-        # )
         try:
             # "a"+0
         # except:

@@ -44,6 +44,8 @@ setup(
     url="https://github.com/claudioperez/rendre",
     py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     include_package_data=True,
+    package_data={"": ['*.html','*.tex']},
+    zip_safe=False,
     packages=find_packages('src'),
     package_dir={'': 'src'},
     entry_points={
@@ -58,7 +60,7 @@ setup(
     install_requires=[
         "coloredlogs",
         # 'aurore @ git+https://github.com/claudioperez/aurore@master',
-        "aurore",
+        "aurore>0.0.0",
         "pyyaml",
         "jinja2"
     ]
