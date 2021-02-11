@@ -13,10 +13,8 @@
     </label>
   </div>
 <select class="custom-select" id="inputGroupSelect0{{ loop.index }}" data-toggle="buttons" role="menu" disabled>
-{# for fi in filter_values[filters[f]] #}
-{% for fk,fi in filters[f].items() %}
-<!-- <option class="btn" value="{{ fi.replace(' ','-') if fi else '' }}" id="{{ fi }}-fi" type="button" href="#{{ fi.replace(' ','') if fi else '' }}" >-->
-<option class="btn" value="{{ fk }}" id="{{ fi }}-fi" type="button" href="#{{ fi.replace(' ','') if fi else '' }}" >
+{% for fi in filter_values[filters[f]] %}
+<option class="btn" value="{{ fi.replace(' ','-') if fi else '' }}" id="{{ fi }}-fi" type="button" href="#{{ fi.replace(' ','') if fi else '' }}" >
     {{ fi }}
 </option>
 {% endfor %}

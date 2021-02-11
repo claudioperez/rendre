@@ -1,13 +1,18 @@
+"""Template for Sphinx gallery.
 """
-Template for Sphinx gallery.
-"""
-
 
 import os
 import re
 import json
+import logging
 from functools import reduce
-from sphinx.util.osutil import relative_uri
+
+logger = logging.getLogger(__name__)
+
+try:
+    from sphinx.util.osutil import relative_uri
+except:
+    relative_uri = lambda *args: None
 
 import yaml
 import jinja2
@@ -42,11 +47,15 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     if args.flatten_fields:
         fields = [f for f in iterate_leaves(fields)]
     link = accum["link"].resolve(rsrc)
-    image_path = relative_uri(
-        config["base_uri"], os.path.join(
-            "_images", rsrc["logo"]
+    try:
+        image_path = relative_uri(
+            config["base_uri"], os.path.join(
+                "_images", rsrc["logo"]
+            )
         )
-    )
+    except:
+        image_path = None
+
     rsrc.update({
         "fields": fields,
         "url": link,
@@ -55,7 +64,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     try:
         for k, v in rsrc["categories"].items():
             # print(k,v)
-            accum["filters"][k].update({v})
+            accum["filters"][k].update([v])
     except:
         for k, v in rsrc["categories"].items():
             accum["filters"][k] = set([v])
@@ -68,6 +77,8 @@ def close(args, config, accum):
     if not args.fields:
         fields = {k: v for k, v in accum["items"]}
 
+    logger.debug(f"Categories: {accum['categories']}")
+
     if args.format_yaml:
         # Insert newline before each top level mapping
         # key. Keys are assumed to match the following
@@ -77,11 +88,11 @@ def close(args, config, accum):
             for s in yaml.dump({
                 k: v["fields"] for k,v in accum["items"].items()
             }).split("\n")
-        )
+        ) + yaml.dump(accum["filters"]) + yaml.dump(accum["filter_values"])
 
     elif args.format_json:
         return json.dumps(
-            {k: v["fields"] for k,v in accum["items"].items()},
+            {k:  v["fields"] for k,v in accum["items"].items()},
             indent=4
         )
     elif args.format_latex:
@@ -97,11 +108,11 @@ def close(args, config, accum):
         template = env.get_template("main.html")
         page = template.render(
             items=accum["items"],
-            filters=accum["filters"],
+            filters=accum["categories"],
             filter_values = accum["filter_values"]
         )
         return page
 
 def tojson(obj, **kwds):
-    return jinja2.Markup(json.dump(obj,**kwds))
+    return jinja2.Markup(json.dumps(obj,**kwds))
 
