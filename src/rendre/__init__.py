@@ -1,5 +1,5 @@
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 import os, re, sys, distutils, shutil, logging
 import json
