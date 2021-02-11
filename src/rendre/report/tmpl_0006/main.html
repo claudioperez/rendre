@@ -1,18 +1,16 @@
 {% from "single_item.html" import single_item, filter_script with context %}
 {% from "build_filters.html" import build_filters with context %}
-<div class="twbs">
-  {% if True %}
-  <details>
+
+<details>
     <summary>Filters</summary>
     {{ build_filters(filters,filter_values) }}
-  </details>
-  {% endif %}
-  <hr>
+</details>
+<hr>
 
-  <div class="gallery" id="gallery">
-  {%- for item in items.values() %}
-  {{ single_item(item) }}
-  {%- endfor %}
-  </div>
+<div class="gallery" id="gallery">
+{%- for item in items %}
+{{ single_item(item) }}
+{%- endfor %}
 </div>
+
 {{ filter_script() }}

@@ -1,34 +1,35 @@
 {% macro single_item(card) %}
-<div class="card shadow-sm mb-3 {% for f in card.categories.values() %} {{ f.replace(' ','-') if f else '' }}{% endfor %} gallery-item" data-gallery_info='{{ card.categories|tojson }}'>
-  <div class="row g-0">
+<div class="card shadow-sm my-3 {% for f in card.template_data.values() %} {{ f.replace(' ','-') if f else '' }}{% endfor %} gallery-item" {% if card.template_data %}data-gallery_info='{{ card.template_data|tojson }}'{% endif %}>
+  <div class="row no-gutters">
     <div class="card-header">
-        <p>
-          <a href="{{ card.url + '.html' }}"> 
-            <h5 class="gx-3">
-              <!-- <code>{{ card.id if card.id else "" }}</code> -->
-              {{ card.title }}
-            </h5>
-          </a>
-        </p>
-      {# if card.template_data.URL #}
-      {# endif #}
+        <p><code>{{ card.id if card.id else "" }}</code></p>
+      {% if card.template_data.URL %}
+        <p><a href="{{ card.template_data.URL }}">
+          <!-- <code><img border="1" src="/img/git-logo-2-color.png" width="35px"></code> -->
+        </a></p>
+      {% endif %}
     </div>
-    <!-- <div class="col-md-{{ '5' if card.image else '7' }}"> -->
-    <div class="col">
+    <div class="col-md-{{ '5' if card.image else '7' }}">
       <div class="card-body">
-          <!-- <h5 class="card-title">{{ card.title }}</h5> -->
+        <a href="{{ card.url }}" class="stretched-link">
+          <h5 class="card-title">{{ card.title }}</h5>
+        </a>
         <p class="card-text">
-          {%-if card.summary -%}
-          {{ card.summary }}
+          {% if card.template_data.abstract %}
+          {{ card.template_data.abstract }}
+          {%-elif card.synopsis-%}
+          {{ card.synopsis }}
+          {%-elif card.meta.summary-%}
+          {{ card.meta.summary }}
           {%-endif-%}
         </p>
       </div>
     </div>
-        {# if card.image #}
-      <!-- <div class="col-md-4 ml-auto mr-2 my-1"> -->
-        <!-- <img src="{{ card.image }}" class="card-image" style="max-width:275px;max-height:220px;width:auto;height:auto;"> -->
-      <!-- </div> -->
-        {# endif #}
+        {% if card.image %}
+    <div class="col-md-4 ml-auto mr-2 my-1">
+      <img src="_static/img/{{ card.id }}.png" class="card-image" style="max-width:275px;max-height:220px;width:auto;height:auto;">
+    </div>
+        {% endif %}
   </div>
 </div>
 {% endmacro %}
