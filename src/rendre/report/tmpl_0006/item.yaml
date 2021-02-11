@@ -1,0 +1,21 @@
+name: card
+type: object
+properties:
+  title:
+    type: string
+  image:
+    type: uri
+  summary:
+    type: string
+  url:
+    type: uri
+  id:
+    type: string
+  template_data:
+    type: object
+
+  categories:
+    type: object
+
+
+
