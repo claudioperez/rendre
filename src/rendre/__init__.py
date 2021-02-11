@@ -24,7 +24,7 @@ def proc_filters(field_filter,FILTERS={}):
         if "=" in fltr:
             field, pattern = fltr.rsplit("=",1)
         else:
-            pattern = fltr 
+            pattern = fltr
             field = "key"
 
         if field in FILTERS:

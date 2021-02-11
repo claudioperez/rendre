@@ -59,7 +59,7 @@ def create_parser():
 
     list_parser.set_defaults(template="tmpl-0004")
     list_parser.set_defaults(init=init_report)
-    
+
     #-PATH----------------------------------------------------------
     path_parser= subparsers.add_parser('path',
                         help='generate paths.')

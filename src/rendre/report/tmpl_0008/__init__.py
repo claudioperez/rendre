@@ -5,7 +5,6 @@ from functools import reduce
 from pathlib import Path
 
 import yaml
-import jinja2
 
 from aurore.utils.treeutils import iterate_leaves
 from aurore.selectors import Pointer, PathBuilder
@@ -25,7 +24,7 @@ def init(args, config)->dict:
 
 def item(rsrc, args:object, config:object, accum:dict)->dict:
     try:
-        paths = [p  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
+        paths = [f"'{p}'"  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
     except:
         accum["path-builders"] = [
             PathBuilder(
@@ -34,7 +33,7 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
                 unpack_fields = args.unpack_fields
             ) for field in remove_duplicates(args.paths)
         ]
-        paths = [p  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
+        paths = [f"'{p}'"  for P in accum["path-builders"] for p in P.resolve_recursively(rsrc) ]
     
     rsrc.update({
             "paths": paths
@@ -46,7 +45,7 @@ def close(args, config, accum):
 
     if args.format_flat:
         return ' '.join(
-            f for v in accum["items"].values() 
+            f'{f}' for v in accum["items"].values()
               for f in iterate_leaves(v["paths"])
         )
 
