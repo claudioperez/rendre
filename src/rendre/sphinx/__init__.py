@@ -51,7 +51,7 @@ class SphinxRendre(TocTree):
         filt_args = [x for pair in arg_pairs for x in pair 
             if pair[0] in ["include-item","exclusive-include"] ]
         filt_args = ["--" + x if (i+1)%2 else x.strip() for i, x in enumerate(filt_args)]
-        args = parser.parse_args([*base_args, "path", *filt_args,"--",template])
+        args = parser.parse_args([*base_args, "path", "--no-quotes", *filt_args,"--",template])
         items = rendre(args).strip()
         logger.debug(f"run_link:items : {items}")
         res = [

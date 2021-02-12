@@ -70,6 +70,10 @@ def create_parser():
     path_format = path_parser.add_mutually_exclusive_group()
     path_format.add_argument("--table",dest="format_table",default=True,action="store_true")
     path_format.add_argument("--flat",dest="format_flat",default=False,action="store_true")
+
+    path_quotes = path_parser.add_mutually_exclusive_group()
+    path_quotes.add_argument("--quotes",   dest="path_format",action="store_const",const="'{}'",default="'{}'")
+    path_quotes.add_argument("--no-quotes",dest="path_format",action="store_const",const="{}")
     # path_format.add_argument("--long","--yaml",dest="format_yaml", default=False,action="store_true")
     # path_format.add_argument("--json",dest="format_json",default=False,action="store_true")
 
