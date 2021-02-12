@@ -83,13 +83,9 @@ bknd-0037   Dakota-UQ               performUQ                SimCenter/SimCenter
 bknd-0038   Dakota-UQ1              performUQ                SimCenter/SimCenterBackendApplications
 bknd-0039   Dakota-UQ               performUQ                SimCenter/quoFEM
 bknd-0040   DakotaFEM               performUQ                SimCenter/quoFEM
-bknd-0041   SimCenterUQ-UQ          performUQ                SimCenter/quoFEM
-bknd-0042   Other-UQ                performUQ                SimCenter/quoFEM
 bknd-0043   UCSD-UQ                 performUQ                SimCenter/quoFEM
-bknd-0044   pelicun                 performDL                SimCenter/SimCenterBackendApplications
 bknd-0045   NearestNeighborEvents   performRegionalMapping   SimCenter/SimCenterBackendApplications
 bknd-0046   OpenSees                performSIM               SimCenter/quoFEM
-bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 ...
 ```
 
@@ -105,6 +101,7 @@ bknd-0047   OpenSeesPy              performSIM               SimCenter/quoFEM
 [pypi-v-image]: https://img.shields.io/pypi/v/rendre.svg
 [pypi-v-link]: https://pypi.org/project/rendre/
 
-[gh-link]: https://github.com/claudioperez/rendre/compare/0.0.7...master
-[gh-image]: https://img.shields.io/github/commits-since/claudioperez/rendre/0.0.7?style=social
+[gh-link]: https://github.com/claudioperez/rendre/compare/0.0.8...master
+[gh-image]: https://img.shields.io/github/commits-since/claudioperez/rendre/0.0.8?style=social
+
 
