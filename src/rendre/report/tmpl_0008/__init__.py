@@ -43,14 +43,13 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
 
 def close(args, config, accum):
     if args.sort and isinstance(args.include_item,list):
-        accum["items"] = {k: accum["items"] for k in args.include_item}
+        accum["items"] = {k: accum["items"][k] for k in args.include_item}
 
     if args.format_flat:
         return ' '.join(
             f'{f}' for v in accum["items"].values()
               for f in iterate_leaves(v["paths"])
         )
-
 
     elif args.format_table:
         return args.join_items.join(
