@@ -9,7 +9,11 @@ def init_report(args, config)->tuple:
     if args.template=="tmpl-0004":
         from .tmpl_0004 import init, item, close
     if args.template=="tmpl-0007":
-        from .tmpl_0007 import init, item, close
+        try:
+            from tmpl_0007 import init, item, close
+        except:
+            from .tmpl_0007 import init,item,close
+
     if args.template=="tmpl-0008":
         from .tmpl_0008 import init, item, close
     return init, item, close

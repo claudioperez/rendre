@@ -1,4 +1,6 @@
 """Template for Sphinx gallery.
+
+claudio perez
 """
 
 import os
@@ -63,13 +65,12 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     })
     try:
         for k, v in rsrc["categories"].items():
-            # print(k,v)
             accum["filters"][k].update([v])
     except:
         for k, v in rsrc["categories"].items():
             accum["filters"][k] = set([v])
     accum['item'] = rsrc
-    
+
     return accum
 
 def close(args, config, accum):
@@ -77,6 +78,11 @@ def close(args, config, accum):
     if not args.fields:
         fields = {k: v for k, v in accum["items"]}
 
+    # Sorting
+    if isinstance(args.include_item,list):
+        accum["items"] = { k: accum["items"][k] for k in args.include_item }
+
+    #print(args.include_item,"\n\n\n")
     logger.debug(f"Categories: {accum['categories']}")
 
     if args.format_yaml:

@@ -42,6 +42,8 @@ def item(rsrc, args:object, config:object, accum:dict)->dict:
     return accum
 
 def close(args, config, accum):
+    if args.sort and isinstance(args.include_item,list):
+        accum["items"] = {k: accum["items"] for k in args.include_item}
 
     if args.format_flat:
         return ' '.join(

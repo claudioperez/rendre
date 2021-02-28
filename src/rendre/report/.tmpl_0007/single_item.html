@@ -4,14 +4,9 @@
     <div class="card-header">
         <p>
           <a href="{{ card.url + '.html' }}"> 
-            <h5 class="gx-3">
-              <!-- <code>{{ card.id if card.id else "" }}</code> -->
-              {{ card.title }}
-            </h5>
+              <h5 class="gx-3">{{ card.title }}</h5>
           </a>
         </p>
-      {# if card.template_data.URL #}
-      {# endif #}
     </div>
     <!-- <div class="col-md-{{ '5' if card.image else '7' }}"> -->
     <div class="col">
@@ -22,6 +17,7 @@
           {{ card.summary }}
           {%-endif-%}
         </p>
+          {% for f in card.categories.values() %}<span class="btn btn-outline-secondary btn-sm disabled">{{ f }}</span>{% endfor %}
       </div>
     </div>
         {# if card.image #}
@@ -33,7 +29,7 @@
 </div>
 {% endmacro %}
 
-{% macro filter_script() %}
+{# macro filter_script() #}
 <script>
 let selectedFilters = [];
 const images  = document.getElementsByClassName("gallery-item");
