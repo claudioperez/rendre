@@ -12,7 +12,7 @@ def pass_item(item, args, config, accum:dict)->dict:
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(prog='rendre', description="Description text.")
+    parser = argparse.ArgumentParser(prog='rendre', description="Manipulate and render data sourced from a distributed document-oriented database.")
     parser.add_argument(
         "-D","--data-file",
         default="./.aurore/aurore.cache.json"
@@ -23,13 +23,22 @@ def create_parser():
         default="-"
     )
     parser.add_argument("-B","--base-uri", default="")
-    parser.add_argument("-E","--book-end", default=True)
-    parser.add_argument("-F","--filter-any", nargs="?", action="append")
+    # parser.add_argument("-E","--book-end", default=True)
+    # parser.add_argument("-F","--filter-any", nargs="?", action="append")
     # parser.add_argument("-J","--JQ", nargs="?", action="extend")
-    parser.add_argument("-l","--load-defaults", help="load defaults from a specified file.")
+    parser.add_argument("-l","--load-defaults",
+            help="load defaults from a specified file."
+    )
     parser.add_argument("-d","--default-set", help="identify a previously named set of defaults.")
-    parser.add_argument("-v","--verbose", action="count", default=0)
-    parser.add_argument("-q","--quiet", action="store_true",default=False)
+    parser.add_argument("-v","--verbose", action="count", default=0,
+            help="Set verbosity of logging to stdout."
+    )
+    parser.add_argument("--version", action="store_true", default=False,
+            help="Print version number and exit."
+    )
+    parser.add_argument("-q","--quiet", action="store_true",default=False,
+            help="Suppress all logging to stdout."
+    )
 
     subparsers = parser.add_subparsers(title='subcommands') #,description='list of subcommands',help='additional help')
 
@@ -112,7 +121,7 @@ def create_parser():
     gallery_parser.add_argument("--flatten-fields",action="store_true",default=False)
     gallery_parser.add_argument("-s","--separator",default=", ")
     gallery_parser.add_argument("-j","--join-items",default="\n")
-    
+
     gallery_parser.add_argument("--link",default="")
 
     gallery_parser.add_argument("fields", nargs="*")

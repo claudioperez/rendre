@@ -26,8 +26,7 @@ class SphinxRendre(TocTree):
     arg_pat = re.compile('^\s*:([A-z-]+):(.+)$')
     option_spec = {
         k.replace("--",""): str
-          for k in parser._option_string_actions
-            if "--" in k
+          for k in parser._option_string_actions if "--" in k
     }
     has_content = True
     required_arguments = 1
@@ -50,13 +49,12 @@ class SphinxRendre(TocTree):
         filt_args = [x for pair in arg_pairs for x in pair
             if pair[0] in ["include-item","exclusive-include"] ]
         filt_args = ["--" + x if (i+1)%2 else x.strip() for i, x in enumerate(filt_args)]
-        args = parser.parse_args([*base_args, "-vvv","path", "--sort","--no-quotes", *filt_args,"--",template])
+        args = parser.parse_args([*base_args, "path", "--sort","--no-quotes", *filt_args,"--",template])
         items = rendre(args).strip()
         logger.debug(f"run_link:items : {items}")
         res = [
             i.strip()[2:] if i[:2]=="./" else i.strip() for i in items.split("\n")
         ]
-        # print("\n",res,"\n")
         return res
 
 
@@ -93,8 +91,6 @@ class SphinxRendre(TocTree):
         parsed_args = parser.parse_args([*base_args, cmd, "--html", *cmd_args])
         html_attributes = {"format": "html"}
         try:
-            # "a"+0
-        # except:
             html:str = rendre(parsed_args,config=config)
         except Exception as e:
             logger.error(e)
