@@ -61,6 +61,9 @@ def apply_field_filters(resource,filters:dict)->bool:
     return all(matches)
 
 def rendre(args, config={})->str:
+    if args.version:
+        return __version__ + "\n"
+
     logger = logging.getLogger("rendre")
 
     #-Logging-----------------------------------------------------------
@@ -81,10 +84,10 @@ def rendre(args, config={})->str:
     defaults = {}
     if "load_defaults" in args and args.load_defaults:
         logger.debug("Loading defaults")
-        defaults = resolve_uri(args.load_defaults)
+        defaults = resolve_uri(args.load_defaults,fmt="yaml")
     elif "default_set" in args and args.default_set:
         defaults = config["def-defaults"][args.default_set]
-    
+
     for key, value in defaults.items():
         if key.replace("-","_") == "include_item":
             if not args.include_item:
@@ -93,7 +96,6 @@ def rendre(args, config={})->str:
                 args.include_item.extend([
                     arg for arg in value if arg not in args.include_item
                 ])
-            # args.include_item.extend()
         elif key not in args or not getattr(args,key):
             if isinstance(value,dict) and not all(value.values()):
                 value = list(value.keys())
@@ -111,7 +113,6 @@ def rendre(args, config={})->str:
         with open(os.path.expandvars(args.data_file), "r") as f:
             cache = json.load(f)
 
-    # logger.debug(f"Items: {cache['items']}")
 
     if not config: config = Config()
 
@@ -120,9 +121,10 @@ def rendre(args, config={})->str:
         setattr(args,"fields",[r"%i", r"%t"])
 
     #-Filters-----------------------------------------------------------
-    FILTERS = proc_filters(args.filter_any) if args.filter_any else {}
+    # FILTERS = proc_filters(args.filter_any) if args.filter_any else {}
+    FILTERS = {}
 
-    logger.info(f"Filters: {FILTERS}")
+    # logger.info(f"Filters: {FILTERS}")
     #-------------------------------------------------------------------
     if "init" in args:
         args.initfunc, args.func, args.closefunc = args.init(args,config)
@@ -131,7 +133,7 @@ def rendre(args, config={})->str:
         accum = args.initfunc(args,config)
     else:
         accum = {}
-    
+
     for k, v in cache.items():
         if k != "items":
             accum.update({k:v})
@@ -140,21 +142,19 @@ def rendre(args, config={})->str:
 
     if "func" in args and args.func:
         for name, resource in cache["items"].items():
-            # resource = resolve_uri(os.path.join(args.base_uri , ref))
             if apply_field_filters(resource,FILTERS):
-            # if True:
                 logger.info("Entering {}".format(name))
                 accum = args.func(resource, args, config, accum)
                 included = check_includes(args, {"id":name, **accum["item"]})
                 if "item" in accum and included:
                     accum["items"].update({name: accum["item"]})
-    
+
     if "closefunc" in args:
         output = args.closefunc(args, config, accum)
         if output and output[-1] != "\n":
             output = "".join((output,"\n"))
 
     #-Output------------------------------------------------------------
-    
+
     return output
 
