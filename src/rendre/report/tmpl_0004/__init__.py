@@ -59,7 +59,8 @@ def close(args, config, accum):
 
     elif args.format_json:
         return json.dumps(
-            {k: v["fields"] for k,v in accum["items"].items()},
+            #{k: v["fields"] for k,v in accum["items"].items()},
+            [v["fields"] for k,v in accum["items"].items()],
             indent=4
         )
 

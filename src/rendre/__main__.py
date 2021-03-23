@@ -15,7 +15,10 @@ def create_parser():
     parser = argparse.ArgumentParser(prog='rendre', description="Manipulate and render data sourced from a distributed document-oriented database.")
     parser.add_argument(
         "-D","--data-file",
-        default="./.aurore/aurore.cache.json"
+        nargs="?",
+        action="append",
+        #default=["./.aurore/aurore.cache.json"]
+        default=[]
     )
     parser.add_argument(
         "-o","--output-file",

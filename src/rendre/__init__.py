@@ -1,5 +1,5 @@
 
-__version__ = "0.0.11"
+__version__ = "0.0.12"
 
 import os, re, sys, distutils, shutil, logging
 import json
@@ -107,11 +107,22 @@ def rendre(args, config={})->str:
     logger.debug(f"Namespace: {args}")
 
     #-Input-------------------------------------------------------------
-    if args.data_file == "-":
+    #if args.data_file == "-":
+    cache = dict(categories={},items={})
+    if not args.data_file:
+        args.data_file = ["./.aurore/aurore.cache.json"]
+
+    if "-" in args.data_file:
         cache = json.load(sys.stdin)
     else:
-        with open(os.path.expandvars(args.data_file), "r") as f:
-            cache = json.load(f)
+        for filename in args.data_file:
+            with open(os.path.expandvars(filename), "r") as f:
+                #print(os.path.expandvars(filename))
+                dat = json.load(f)
+                if "categories" in dat:
+                    cache["categories"].update(dat["categories"])
+                if "items" in dat:
+                    cache["items"].update(dat["items"])
 
 
     if not config: config = Config()
@@ -157,4 +168,3 @@ def rendre(args, config={})->str:
     #-Output------------------------------------------------------------
 
     return output
-
