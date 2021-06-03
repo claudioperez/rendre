@@ -1,5 +1,5 @@
 
-__version__ = "0.0.12"
+__version__ = "0.0.13"
 
 import os, re, sys, distutils, shutil, logging
 import json
@@ -16,7 +16,9 @@ import yaml
 from .core import Config, InitOperation, ItemOperation
 from .utils import copy_tree, get_resource_location, isrepository
 
-
+def pull(args):
+    from aurore.__main__ import main
+    main(args)
 
 
 def proc_filters(field_filter,FILTERS={}):
@@ -76,7 +78,7 @@ def rendre(args, config={})->str:
         import coloredlogs
         coloredlogs.install(level=levelNames[
             0 if args.quiet else min(args.verbose,3) if args.verbose else 0
-            ])
+        ])
     except:
         pass
 

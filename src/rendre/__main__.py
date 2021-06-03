@@ -154,6 +154,8 @@ def create_parser():
 def _main_():
     import sys
     args = create_parser().parse_args()
+    if args.verbose == 3:
+        print("DONE PARSING")
     output = rendre(args)
     
     if args.output_file == "-":
