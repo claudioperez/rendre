@@ -60,7 +60,7 @@ setup(
     install_requires=[
         "coloredlogs",
         # 'aurore @ git+https://github.com/claudioperez/aurore@master',
-        "aurore>0.0.7",
+        "aurore>0.0.8",
         "pyyaml",
         "jinja2"
     ]
