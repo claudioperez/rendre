@@ -62,6 +62,7 @@ setup(
         # 'aurore @ git+https://github.com/claudioperez/aurore@master',
         "aurore>0.0.8",
         "pyyaml",
-        "jinja2"
+        "jinja2",
+        "quakeio"
     ]
 )
